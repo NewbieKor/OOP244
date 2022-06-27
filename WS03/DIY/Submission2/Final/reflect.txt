@@ -1,0 +1,37 @@
+/*
+*****************************************************************************
+                          Workshop - #3
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 06.06.2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+
+a) What have you learned in terms of programming topics? (first paragraph)
+Through this workshop, I learned about member functions query and modifier. 
+These are the public members of the class, and query is a function used to access private members without any change. 
+The reason for using this is that external functions are not accessible to private member variables, so queries are used to access private members in the class.
+For example,
+    bool Bar::isValid() const
+    {
+        return b_title && b_title[0] != '\0' && b_sampleVal >= 0 && b_sampleVal <= 100;
+    }
+The 'isValid' function above is a function of checking whether these variables are valid using Bar's private members, b_title, b_fillChar, and b_sampleVal.
+I wrote 'const' in the function prototype because I would not make any changes to these variables.
+
+On the other hand, 'const' was not used in the variable 'setEmpty' to set private member variables to empty state.
+    void Bar::setEmpty()
+    {
+        b_title[0] = '\0';
+        b_fillChar = '\0';
+        b_sampleVal = -1;
+    }
+These member functions are called modifiers because the values are changed to set the above variables to empty state.
+
+b) What errors have you debugged? (second paragraph)

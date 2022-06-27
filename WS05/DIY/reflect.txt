@@ -1,0 +1,56 @@
+/*
+*****************************************************************************
+		                   Workshop - #5
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 06.19.2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+a) What have you learned in terms of programming topics? (first paragraph)
+I learned about member operators and helper operators. These two operators are divided according to the number of operands.
+The member operator changes the value of the left operand, and the helper operator does not change the value of the operand.
+For instance,
+    Hero& operator+=(Power& pow);
+    Hero& operator-=(const int& level);
+In binary member operator, the left operand is the current object(Hero&) and the right operand is one explicit parameter(Power& pow, const int& level).
+
+Next, let's talk about the helper operator.
+    bool operator<(Hero& hero1, Hero& hero2);
+    bool operator>(Hero& hero1, Hero& hero2);
+    void operator>>(Power& power, Hero& hero);
+    void operator<<(Hero& hero, Power& power);
+The helper operator is a global function that overloads the operator. The helper operator is an operator that does not change the value of the operand as shown above.
+The left parameter is the left operator, and the right parameter is the right operator.
+
+	std::ostream& operator<<(std::ostream& os, const Hero& hero);
+The above operator uses the class of 'ostream' as the left operator and the 'Hero' class as the right operator.
+In this workshop, 'ostream' used an object called 'cout' and configured it to be able to chain by returning an object reference.
+
+b) What errors have you debugged? (second paragraph)
+I encountered errors when configuring the following function.
+
+	Hero& Hero::operator+=(Power& pow)
+	{
+		Power* temp = m_powerSet;
+		m_powerSet = new(nothrow) Power[m_noOfPowers + 1];
+		if (m_powerSet)
+		{
+			for (int i = 0; i < m_noOfPowers; i++) m_powerSet[i] = temp[i];
+			m_powerSet[m_noOfPowers++] = pow;
+			setLevel();
+		}
+		delete[] temp;
+		return *this;
+	}
+	
+At first, I deallocated the memory to increase the length of 'm_powerSet', and gave it a new one. 
+Then, there was a situation where the previous data disappeared. (To be exact, I lost the address.)
+So I used a pointer called 'temp' to temporarily store the data. 
+And 'temp' is a local variable, so I deleted it before the function ended.
+

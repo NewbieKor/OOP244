@@ -1,0 +1,58 @@
+/*
+*****************************************************************************
+                          Workshop - #3
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 06.06.2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+
+a) 
+Through this workshop, I learned about member functions query and modifier. 
+These are the public members of the class, and query is a function used to access private members without any change. 
+The reason for using this is that external functions are not accessible to private member variables, so queries are used to access private members in the class.
+For example,
+    bool Bar::isValid() const
+    {
+        return b_title && b_title[0] != '\0' && b_sampleVal >= 0 && b_sampleVal <= 100;
+    }
+The 'isValid' function above is a function of checking whether these variables are valid using Bar's private members, b_title, b_fillChar, and b_sampleVal.
+I wrote 'const' in the function prototype because I would not make any changes to these variables.
+
+On the other hand, 'const' was not used in the variable 'setEmpty' to set private member variables to empty state.
+    void Bar::setEmpty()
+    {
+        b_title[0] = '\0';
+        b_fillChar = '\0';
+        b_sampleVal = -1;
+    }
+These member functions are called modifiers because the values are changed to set the above variables to empty state.
+
+b) What errors have you debugged? (second paragraph)
+When creating a bar module for barTester output, the desired bar did not come out as follows.
+
+the bar.............?
+
+After debugging, the output from the first bar ('the bar') came out like that, and the rest of the results were not.
+At first I thought the way to print '|' was wrong. Because the '.' symbol was printed well.
+So I tested different symbols ('+', '-', etc.), and the same result came out. So I thought it wasn't a matter of symbols.
+So I re-debugged the 'for' statement for print.
+    for (i = 0; i <= MAX_CHAR; i++)
+    {
+        if (b_title[i] != '\0') cout << b_title[i];
+        else cout << '.';
+    }
+It was printed well until i = 19 and then not at i = 20, and I realized why. So I changed it to the following.
+     for (i = 0; i < MAX_CHAR; i++)
+    {
+        if (b_title[i] != '\0') cout << b_title[i];
+        else cout << '.';
+    }
+The reason is that I set the static memory size of b_title to 21, so when i = 20, the garbage value was included.
+So, I think it was probably not printed properly because the garbage value went into the buffer.

@@ -1,0 +1,62 @@
+/*
+*****************************************************************************
+                          Workshop - #4
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 06.13.2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+
+a) What have you learned in terms of programming topics? (first paragraph)
+In C++, an object can be created using a constructor and a member variable can be initialized at the same time. 
+The constructor is implemented with the same name as the class name in a special method.
+// Prototype
+CleanerBot(const char* location, double battery, int brush, bool active);
+// Definition
+    CleanerBot::CleanerBot(const char* location, double battery, int brush, bool isActive)
+    {
+        if (location && location[0] != '\0')
+        {
+            c_location = new char[strlen(location) + 1];
+            strcpy(c_location, location);
+            c_battery = battery;
+            c_brush = brush;
+            c_isActive = isActive;
+        }
+        else setEmpty();
+    }
+The above constructor is called automatically when creating an instance, and it receives several arguments and initializes the members with the arguments.
+
+A destructor is used for the purpose of removing an object when the life of the object is over.
+The compiler automatically calls the destructor function at the end of the object's lifetime.
+It is the same as the class name and uses the '~' symbol.
+// Prototype
+~CleanerBot();
+// Definition
+CleanerBot::~CleanerBot()
+{
+	delete[] c_location;
+}
+In the case of the dynamically allocated member 'c_location' as described above, memory allocation must be reallocated to prevent memory leak.
+Memory leaks can be found using a tool called 'valgrind'.
+
+b) What errors have you debugged? (second paragraph)
+An error occurred when creating a function to sort instances in battery order.
+At first, I made it as follows.
+	temp = bot[j];
+	bot[j] = bot[j + 1];
+	bot[j + 1] = temp;
+
+And the following runtime error occurred.
+A breakpoint instruction (__debugbreak() statement or a similar call) was executed in DIY.exe.
+The result of the valgrind test was as follows.
+==212958== ERROR SUMMARY: 21 errors from 8 contexts
+Therefore, I judged that the dynamically assigned member 'c_location' seemed to be a problem, and that this member variable was made a shallow copy.
+So I used the 'set' function to deallocate the dynamic memory and allocate the new memory.
+(I created 'sort' function by referring to the existing workshop.)

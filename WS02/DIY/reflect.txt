@@ -1,0 +1,78 @@
+*****************************************************************************
+						  Workshop - #2 (P2)
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 05.30.2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+a. I learned the following things through this workshop; Overload functions, Dynamic Memory Allocation, Pass by Reference. 
+
+1) 'Overload functions' means that if the function receives different types of parameters, the compiler recognizes them differently even if the function has the same name.
+For example,
+    bool load(Student& student); // receives the reference of struct Student.
+    bool load(const char* filename); // receives filename(string)
+The above two functions have the same name as 'load', but no error occurs because they have different parameters.
+
+2) 'Overload functions' is the embodiment of polymorphism, one of the characteristics of object-oriented programming.
+In the case of 'Dynamic Memory Allocation', it is used to allocate as many different data sizes as necessary to avoid wasting memory.
+For exmample,
+struct Employee
+	{
+		char* m_name;
+		int m_birthMonth;
+		int m_birthDate;
+		int m_birthYear;
+	};
+The length of each employee's name(m_name) in the structure above varies. 
+So, I used the keyword 'new' to use memory only as much as needed by allocating memory flexibly as each employee's name length.
+Employee* employees; // Declared struct pointer variable.
+employees = new Employee[noOfEmployees]; // Assign the size of struct employees by the number of employees matched to the user input.
+fscanf(fptr, "%[^,],", temp) // Save the name from the file to the 'temp' string.
+employees[noOfReads].m_name = new char[strlen(temp) + 1]; // Gets the size stored in 'temp' from the 'strlen' function and allocates memory by the size added with null terminator (+1).
+delete[] employees[i].m_name; // Deallocates memory from members of the structure.
+delete[] employees; // If you deallocate memory from the structure, you cannot access the member's memory.
+
+3) 'Pass by reference' is a convenient tool because you can access the original rather than a copy of the argument.
+The pointer assigns an address value to the destination. Reference, on the other hand, assigns destination itself.
+For example,
+void display(Student student); // Receive a copy of the object student of the structure Student.
+In the above case, even if you change the student within the function, because you do not have access to the original, you cannot make any changes to the struct student when you leave the scope.
+void display(Student& student); // Receive the original of the object student of the structure Student.
+'Pass by reference' allows you to change the 'student' even if you deviate from the scope of the function.
+
+b. I tried to submit it to the matrix server because there was no error in the visual studio compiler.
+However, the matrix showed the following error.
+---------------------------------------------------------
+Checking output:
+The outputs match but it looks like you have memory leak!
+Please check the file student_output.txt for more detail
+and fix the problem.
+---------------------------------------------------------
+Since it looked like a memory leak, I tried valgrind debugging that I learned in class. 
+
+by 0x400E53: sdds::readBirthDate(int) (BirthDate.cpp:70)
+
+LEAK SUMMARY:
+==156907==    definitely lost: 178 bytes in 13 blocks
+
+I certainly didn't know the cause because I had deallocated the memory through 'delete[] employees;'.
+So I looked at line no.70, which is the line where I assign dynamic memory to each employee's name.
+I tried unassigning the first element of m_name.
+delete[] employees[0].m_name;
+==159126== LEAK SUMMARY:
+==159126==    definitely lost: 162 bytes in 12 blocks
+
+I could see that the memory leak was decreasing. 
+So I used the 'for' statement to deallocate the names of all matched employees.
+		for (int i = 0; i < noOfEmployees; i++)
+		{
+			delete[] employees[i].m_name;
+		}
+'All heap blocks were freed -- no leaks are possible'
+I could confirm that there was no memory leak.

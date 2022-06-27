@@ -1,0 +1,22 @@
+
+
+Quiz 모듈
+IsQuizValid();
+각 퀴즈가 최소한 5개 문제인지, 각 질문이 옳은지(mc=한개, ma=최소 한개)
+HasMoreQuestions
+퀴즈 안에 각 질문들에, 에러 있는지 OK or ERROR
+ShowNextQuestion
+
+struct quiz: 질문 타입(mc, ma), 질문 텍스트(스트링), possible answer, 어떤 답이 옳은지 등등) 
+struct question : 퀴즈의 질문들, 현재 스코어, 질문들이 보였는지 아닌지, 유저가 퀴즈를 풀었는지 등등)
+
+
+
+Qusetion 모듈
+질문 최대 60개
+각 질문는 최대 10개 답
+질문 길이는 최대 1024 문자
+답변 길이는 최대 128자
+인지 확인할 것.
+
+또 선택한 답이 정답인지 오답인지!
