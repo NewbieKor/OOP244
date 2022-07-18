@@ -1,0 +1,76 @@
+/*
+*****************************************************************************
+		                   Workshop - #6
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 07.13..2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+a) What have you learned in terms of programming topics? (first paragraph)
+I learned about a copy constructor and a copy assignment operator. 
+
+A copy assignment operator is used to copy values from objects of the same type to objects that are already created.
+	Basket& Basket::operator=(const Basket& origin)
+	{
+		if (this != &origin) 
+		{
+			if (m_fruits != nullptr) delete[] m_fruits;
+			m_cnt = origin.m_cnt;
+			m_fruits = new Fruit[m_cnt];
+			for (int i = 0; i < m_cnt; i++) { m_fruits[i] = origin.m_fruits[i]; }
+			m_price = origin.m_price;
+		}
+		return *this;
+	}
+In order to make deep copies of the dynamically allocated memory as above, I created a separate copy assignment operator.
+
+A copy constructor is a method of taking a reference to another object of the same class type as itself as an argument and initializing itself with that reference.
+	Basket::Basket(const Basket& origin) // a copy constructor
+	{
+		setEmpty();
+		*this = origin;
+	}
+	
+	Basket b2(b1);
+
+As described above, a copy constructor was used to create a b2 instance of the basket class and copy b1.
+In the copy constructor, it was created using a copy assignment operator for deep copy.
+
+b) What errors have you debugged? (second paragraph)
+
+	Basket::operator bool() const
+	{
+		return m_fruits;
+	}
+	
+	std::ostream& operator<<(std::ostream& os, const Basket& basket)
+	{
+		if (basket.m_fruits) {
+			os << "Basket Content:" << endl;
+			for (int i = 0; i < basket.m_cnt; i++) {
+				os << setprecision(2) << fixed;
+				os << setw(10) << right << basket.m_fruits[i].m_name << ": " << basket.m_fruits[i].m_qty << "kg" << endl;
+			}
+			
+			os << "Price: " << basket.m_price << endl;
+		}
+		else {
+			os << "The basket is empty!" << endl;
+		}
+		
+		return os;
+	}
+
+When creating the above-mentioned bool operator, I initially set the return value to 'm_fruits'.
+It was to make sure that the basket contained fruit. 
+If 'm_fruit' is not nullptr, it will return true.
+However, the expected result did not come out.
+In a situation where an empty should be issued, price: 0.0 was output.
+Perhaps, it was determined that m_fruit was pointing to the garbage price, and the problem was solved using 'm_cnt'.
+
