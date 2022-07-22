@@ -1,0 +1,68 @@
+/*
+*****************************************************************************
+		                   Workshop - #7
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 07.18.2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+I've learned about Inheritance of class, shadowing a base class member function with a derived class member function.
+1) Ingeritance.
+Inheritance means that the derived class inherits all member variables and member functions of the base class.
+The benefit of inheritance are that you can reuse existing class and you can write common parts in the foundation class in advance, eliminating duplicates in the derived class.
+In this workshop, 'Minister' class is a derived class of 'MemberParliament' class. 'MemberParliament' class is a base class. The form is as follows:
+
+	class MemberParliament
+    {
+        char m_id[32];
+        char m_district[64];
+        int m_age;
+    public:
+        MemberParliament(const char* id, int age);
+        void NewDistrict(const char* district);
+        std::ostream& write(std::ostream& os) const;
+        std::istream& read(std::istream& in);
+    };
+
+	class Minister :public MemberParliament
+	{
+		char m_name[50];
+		int m_year;
+	public:
+		Minister(const char* id, int age, int year, const char* name, const char* district);
+		void changePM(const char* pm);
+		void assumeOffice(double year);
+		std::ostream& write(std::ostream& os) const;
+		std::istream& read(std::istream& in);
+	};
+
+2) shadowing
+'Minister' class inherits the following members of the base class:
+priavate: m_id[32], m_district[64], m_age/ public: NewDistrict(const char* district), write(std::ostream& os), read(std::istream& in)
+Here, the basic class of constructors, destructors or alignment operators are not inherited.
+Write (std:ostream&os) and read (std:istream&in) have the same prototype for both basic and derived classes.
+Therefore, the derived class must use resolution(::) to access the base class write(std:ostream&os). Otherwise, it approaches the function of the derived class.
+	std::ostream& Minister::write(std::ostream& os) const
+	{
+		MemberParliament::write(os); // member of the base class.
+		os << " | " << m_pm << '/' << m_year;
+		return os;
+	}
+
+The constructor of the derived class are as follows.
+	Minister::Minister(const char* id, int age, int year, const char* name, const char* district) : MemberParliament(id, age)
+	{
+		MemberParliament::NewDistrict(district);
+		strcpy(m_name, name);
+		m_year = year;
+	}
+
+' : MemberParliament(id, age)' 
+This part means that when calling the constructor of the derived class, the constructor of the base class is first retrieved.
+If this part is not written down, the compiler basically calls the default constructor first.

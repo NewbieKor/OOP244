@@ -1,0 +1,33 @@
+/*
+*****************************************************************************
+						  Workshop - #8 (P2)
+Full Name  : Seonghoon Kim
+Student ID#: 143080216
+Email      : shkim61@myseneca.ca
+Section    : NGG
+Date	   : 07.22.2022
+
+I have done all the coding by myself and only copied the code that
+my professor provided to complete my workshops and assignments.
+*****************************************************************************
+*/
+
+I've learned a pure virtual function, an abstract base class and interface.
+A 'virtual function' refers to a member function that you expect to override in a derived class.
+This is used in late binding, which binding is determined at runtime, and if the keyword 'virtual' is used, the overridden function of the derived class is invoked.
+And the 'virtual function' is defined, so if the derived class is not overridden, the definition of the base class is executed.
+In constrast, a 'pure virtual function' is a member function that must be overridden in a derived class. 
+Because this is not defined, the derived class must override this function.
+The form of a pure virtual function is expressed as 0 or NULL as follows:
+	class iAccount
+	{
+	public:
+		virtual bool credit(double) = 0; 
+		virtual bool debit(double) = 0;
+		virtual void monthEnd() = 0;
+		virtual void display(std::ostream&) const = 0;
+		virtual ~iAccount() {};
+	};
+A class consisting only of pure virtual functions, such as iAccount, is called an 'interface'.
+The interface has only pure virtual functions and virtual destructor and cannot be instantiated.
+A class that contains one or more pure virtual functions is called an 'abstract class'.
